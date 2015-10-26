@@ -1,9 +1,8 @@
 defmodule Etcd.Node do
-  @derive [Access,Collectable]
   defstruct [
     dir: false,
     key: nil,
-    nodes: nil,
+    nodes: [],
     createdIndex: nil,
     modifiedIndex: nil,
     ttl: nil,
@@ -20,3 +19,12 @@ defmodule Etcd.Node do
   defp load_nodes(lst) when is_list(lst), do: Enum.map(lst, &from_map/1)
 end
 
+defimpl Collectable, for: Etcd.Node do
+  def into(original) do
+    {original, fn
+      map, {:cont, {k, v}} -> :maps.put(k, v, map)
+      map, :done -> map
+      _, :halt -> :ok
+    end}
+  end
+end
