@@ -58,8 +58,15 @@ defmodule Etcd do
     request! srv, :put, key, [], body
   end
 
+  def mkdir!(srv, name) do
+    request! srv, :put, key, [dir: true], []
+  end
+
   def delete!(srv, key, body \\ []) do
     request! srv, :delete, key, [], body
+  end
+  def delete!(srv, key, [recursive: true], body \\ []) do
+    request! srv, :delete, key, [recursive: true], body
   end
 
   def wait!(srv, key, query \\ [], timeout \\ 10000) do
@@ -292,7 +299,6 @@ defmodule Etcd.Connection do
   end
 
   defp process_response(ctx, req, resp) do
-    IO.inspect resp
     Logger.debug "get #{resp.status_code}"
     body = JSX.decode! resp.body
     reply req, {:ok, body, resp}

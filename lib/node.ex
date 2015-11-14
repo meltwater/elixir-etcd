@@ -22,8 +22,8 @@ end
 defimpl Collectable, for: Etcd.Node do
   def into(original) do
     {original, fn
-      map, {:cont, {k, v}} -> :maps.put(k, v, map)
-      map, :done -> map
+      node, {:cont, {k, v}} -> :maps.put(k, v, node)
+      node, :done -> node
       _, :halt -> :ok
     end}
   end
