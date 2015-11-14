@@ -59,14 +59,15 @@ defmodule Etcd do
   end
 
   def mkdir!(srv, name) do
-    request! srv, :put, key, [dir: true], []
+    request! srv, :put, name, [dir: true], []
   end
 
   def delete!(srv, key, body \\ []) do
     request! srv, :delete, key, [], body
   end
-  def delete!(srv, key, [recursive: true], body \\ []) do
-    request! srv, :delete, key, [recursive: true], body
+
+  def rmdir!(srv, key) do
+    request! srv, :delete, key, [recursive: true], []
   end
 
   def wait!(srv, key, query \\ [], timeout \\ 10000) do
