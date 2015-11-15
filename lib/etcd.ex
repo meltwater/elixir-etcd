@@ -58,8 +58,16 @@ defmodule Etcd do
     request! srv, :put, key, [], body
   end
 
-  def mkdir!(srv, name) do
-    request! srv, :put, name, [dir: true], []
+  # for attomically assigning key values in a directory
+  def put_in!(srv, folder, value, body \\ []) do
+    body = Dict.put(body, :value, value)
+    request! srv, :post, folder, [], body
+  end
+
+  # directories can have a ttl
+  def mkdir!(srv, name, opts \\ []) do
+    opts = Dict.put(opts, :dir, true)
+    request! srv, :put, name, opts, []
   end
 
   def delete!(srv, key, body \\ []) do
