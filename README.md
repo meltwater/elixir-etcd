@@ -6,7 +6,7 @@ ElixirEtcd
 require Logger
 
 server = %Etcd.Connection{
-  hosts: ["127.0.0.1:4001"],
+  hosts: ["127.0.0.1:2379"],
   ssl_options: [
     {:certfile, 'etcd_client.crt'},
     {:keyfile, 'etcd_client.key'},

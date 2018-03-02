@@ -2,34 +2,33 @@ defmodule ElixirEtcd.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :etcd,
-     version: "0.0.1",
-     elixir: "~> 1.0",
-     description: desc,
-     package: package,
-     deps: deps]
+    [
+      app: :etcd,
+      version: "0.1.0",
+      elixir: "~> 1.5",
+      description: desc(),
+      package: package(),
+      deps: deps()
+    ]
   end
 
   def application do
     [
-      applications: [
-        :logger,
-        :exjsx,
-        :httpoison,
-      ],
+      extra_applications: [:logger, :exjsx, :httpoison],
       env: [
-        url: "http://127.0.0.1:4001",
+        url: "http://127.0.0.1:2379",
         crt: "./etcd.crt",
         key: "./etcd.key",
-        ca:  "./ca.crt",
+        ca: "./ca.crt"
       ]
     ]
   end
 
   defp deps do
     [
-      {:exjsx, "~> 3.0"},
-      {:httpoison, "~> 0.7"},
+      {:exjsx, "~> 4.0"},
+      {:httpoison, "~> 1.0"},
+      {:credo, "~> 0.8", only: :dev}
     ]
   end
 
@@ -42,8 +41,8 @@ defmodule ElixirEtcd.Mixfile do
   defp package do
     [
       licenses: ["MIT"],
-      contributors: ["Bearice Ren"],
-      links: %{"Github" => "https://github.com/bearice/elixir-etcd"}
+      contributors: ["Bearice Ren", "Jake Wilkins", "Yuan Yang", "Hans-Gunther Schmidt"],
+      links: %{"Github" => "https://github.com/meltwater/elixir-etcd"}
     ]
   end
 end
